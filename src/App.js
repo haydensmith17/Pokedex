@@ -1,12 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import { Routes, Route, Link } from "react-router-dom"
 import Pokedex from './pokedex';
 import Details from './details';
 import RandomPokedex from './randomPokedex';
-import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import axios from 'axios'
 
 function App() {
   return (

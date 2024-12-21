@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import axios from 'axios'
-import Details from "./details"
 import { useNavigate } from "react-router-dom"
 
 function Pokedex() {
