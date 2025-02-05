@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 20vmin;
+  height: 30vmin;
   pointer-events: none;
 }
 
@@ -35,22 +35,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
   min-height: 100vh;
   text-align: center;
 }
 
-.buttons {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
-  margin-bottom: 25px;
+.back-button {
+  position: relative;
+  top: 90px;
+  right: 350px;
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 10px;
+.backButtonElement {
+  border: none;
+  background-color: white;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-style: groove;
+  padding: 0px 15px;
+}
+
+.icon:hover {
+  background-color: #f2f2f2; 
+}
+
+.icon svg {
+  transition: transform 0.2s ease; 
+}
+
+.icon:hover svg {
+  transform: translateX(-5px);
 }
 
 .background {
@@ -71,26 +92,97 @@ h1 {
 
 .card {
   width: 800px;
-  height: 640px;
+  height: 650px;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  border-radius: 5px; /* Rounded corners */
-  overflow: hidden; /* Ensures no content spills outside */
+  border-radius: 25px;
+  overflow: hidden;
   background-color: white;
+  margin-top: 30px;
+}
+
+.detailImages img{
+  margin-top: 60px;
+  height: 20vmin;
 }
 
 .infoCats {
   display: flex;
   align-items: start;
   justify-content: space-evenly;
+  border: double;
+  border-radius: 20px;
+  height: 300px;
+  margin: 0px 20px;
+  gap: 0px 10px;
 }
 
 .moves {
-  overflow-y: scroll;
-  max-height: 385px;
+  max-height: 240px;
+  width: 150px;
+}
+
+.moves p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
 }
 
 .games {
-  overflow-y: scroll;
-  max-height: 385px;
+  max-height: 240px;
+  width: 150px;
+}
+
+.games p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.moves FixedSizeList {
+  height: 100%; 
+  width: 100%; 
+}
+
+.pokemonSprite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.spriteText {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.spriteText h2 {
+  position: relative;
+  transform: translateY(-50%);
+}
+
+.pokemonInput {
+  position: absolute;
+  top: 325px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.myButtons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.myButtons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 10px;
 }

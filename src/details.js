@@ -1,85 +1,158 @@
-import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react"
-import axios from 'axios'
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { FixedSizeList } from "react-window";
+import * as React from "react";
+import './App.css';
+import App from "./App";
+import MyPokedex from "./pokedex";
+import Pokedex from 'pokedex-promise-v2';
 
-function Details() {
-    const [pokemon, setPokemon] = useState(null)
-    const { id } = useParams()
+const P = new Pokedex();
+
+function Details({ pokemon1 }) {
+    const [pokemon, setPokemon] = useState(null);
+    const { id } = useParams();
+
+    // function savedUserInput() {
+    //     const savedUserInput = id;
+
+    //     return (
+    //         <MyPokedex savedUserInput={savedUserInput} />
+    //     )
+    // }
 
     useEffect(() => {
-        axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`)
-            .then((response) => {
-                setPokemon(response.data)
-            })
-            .catch((error) => {
-                console.error("Error fetching data: ", error)
-            })
-    }, [id])
+        if (pokemon1) {
+            setPokemon(pokemon1[0])
+            console.log(pokemon1)
+        }
+    })
 
-    const moves = pokemon?.moves?.map((e) => {
-        return <p style={{color: '#307BFA'}} key={e.move.url}>{e.move.name}</p>
-    })
-    const stats = pokemon?.stats?.map((e) => {
-        return <p style={{color: '#307BFA'}} key={e.stat.url}>{e.stat.name}: {e.base_stat}</p>
-    })
-    const games = pokemon?.game_indices?.map((e) => {
-        return <p style={{color: '#307BFA'}} key={e.version.url}>{e.version.name}</p>
-    })
-    const types = pokemon?.types?.map((e) => {
-        return <p style={{color: '#307BFA'}} key={e.type.url}>{e.type.name}</p>
-    })
-    const abilities = pokemon?.abilities?.map((e) => {
-        return <p style={{color: '#307BFA'}} key={e.ability.url}>{e.ability.name}</p>
-    })
+    // useEffect(() => {
+    //     const stringInput = id.toString()
+    //     P.getPokemonByName(stringInput)
+    //         .then((response) => {
+    //             setPokemon(response)
+    //             console.log(response)
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching data: ", error);
+    //         });
+    // }, [id]);
+
+    const types = pokemon?.types;
+    const abilities = pokemon?.abilities;
+    const baseStats = pokemon?.baseStats;
+    const moves = pokemon?.moves;
+    const games = pokemon?.games;
+    const evoLevel = pokemon?.evoLevel;
+    console.log(moves, games)
 
     return (
         <div>
             {pokemon && (
                 <>
-                    <img src={pokemon.sprites.front_default != null ? pokemon.sprites.front_default : ""} className="App-logo" />
-                    <img src={pokemon.sprites.back_default != null ? pokemon.sprites.back_default : ""} className="App-logo" />
-                    <img src={pokemon.sprites.front_shiny != null ? pokemon.sprites.front_shiny : ""} className="App-logo" />
-                    <img src={pokemon.sprites.back_shiny != null ? pokemon.sprites.back_shiny : ""} className="App-logo" />
-                    <p>
-                        {pokemon?.name != null ? pokemon?.name : ""} <sup>(#{pokemon?.id != null ? pokemon?.id : ""})</sup>
-                    </p>
+                    <div className="detailImages">
+                        <img src={pokemon.sprites || ""} alt="Front Default" />
+                        {pokemon.sprites.back_default ? (
+                            <img src={pokemon.sprites.back_default} alt="Front Shiny" />
+                        ) : ("")}
+                        <img src={pokemon.sprites.front_shiny || ""} alt="Front Shiny" />
+                        {pokemon.sprites.back_shiny ? (
+                            <img src={pokemon.sprites.back_shiny} alt="Front Shiny" />
+                        ) : ("")}
+                    </div>
+                    <h2>
+                        {pokemon?.name ? pokemon?.name[0].toUpperCase() + pokemon.name.slice(1) : ""}{" "}
+                        <sup>(#{pokemon?.id || ""})</sup>
+                    </h2>
                     <div className="infoCats">
-                        {types.length > 0 && (
+                        {types?.length > 0 && (
                             <div className="type">
                                 <h3>Type</h3>
-                                {types}
+                                {types.map((type, index) => (
+                                    <p style={{ color: "#307BFA" }} key={index}>
+                                        {type[0].toUpperCase() + type.slice(1)}
+                                    </p>
+                                ))}
                             </div>
                         )}
-                        {abilities.length > 0 && (
+                        {abilities?.length > 0 && (
                             <div className="type">
                                 <h3>Abilities</h3>
-                                {abilities}
+                                {abilities.map((ability, index) => (
+                                    <p style={{ color: "#307BFA" }} key={index}>
+                                        {ability[0].toUpperCase() + ability.slice(1)}
+                                    </p>
+                                ))}
                             </div>
                         )}
-                        {stats.length > 0 && (
-                            <div className="type">
-                                <h3>Stats</h3>
-                                {stats}
+                        {baseStats?.length > 0 && (
+                            <div >
+                                <h3>Base Stats</h3>
+                                {baseStats.map((baseStat, index) => (
+                                    <p style={{ color: "#307BFA" }} key={index}>
+                                        {baseStat[0].toUpperCase() + baseStat.slice(1)}
+                                    </p>
+                                ))}
                             </div>
                         )}
-                        {moves.length > 0 && (
-                            <div className="type">
+                        {evoLevel?.length > 0 && (
+                            <div>
+                                <h3>Evolution</h3>
+                                {evoLevel.map((evoLevel, index) => (
+                                    <p style={{ color: "#307BFA" }} key={index}>
+                                        {evoLevel[0].toUpperCase() + evoLevel.slice(1)}
+                                    </p>
+                                ))}
+                                </div>
+                        )}
+                        {moves?.length > 0 && (
+                            <div className="moves">
                                 <h3>Moves</h3>
-                                {moves}
+                                <FixedSizeList
+                                    height={230}
+                                    width={150}
+                                    itemSize={46}
+                                    itemCount={moves.length}
+                                    overscanCount={5}
+                                >
+                                    {({ index }) => (
+                                        <div key={index}>
+                                            <p style={{ color: "#307BFA" }}>
+                                                {moves[index]}
+                                            </p>
+                                        </div>
+                                    )}
+                                </FixedSizeList>
                             </div>
                         )}
-                        {games.length > 0 && (
-                            <div className="type">
+                        {games?.length > 0 && (
+                            <div className="games">
                                 <h3>Games</h3>
-                                {games}
+                                <FixedSizeList
+                                    height={230}
+                                    width={150}
+                                    itemSize={46}
+                                    itemCount={games.length}
+                                    overscanCount={5}
+                                >
+                                    {({ index }) => (
+                                        <div key={index}>
+                                            <p style={{ color: "#307BFA" }}>
+                                                {games[index]}
+                                            </p>
+                                        </div>
+                                    )}
+                                </FixedSizeList>
                             </div>
                         )}
                     </div>
-
                 </>
             )}
         </div>
-    )
+    );
 }
 
-export default Details
+export default Details;
